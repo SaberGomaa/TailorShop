@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace TailorShop
 {
@@ -17,7 +15,7 @@ namespace TailorShop
 
         private void LoadBackups()
         {
-            string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
+            string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "D://Backups");
             if (Directory.Exists(backupFolder))
             {
                 var backupFiles = Directory.GetFiles(backupFolder, "TailorShop_Backup_*.db");
