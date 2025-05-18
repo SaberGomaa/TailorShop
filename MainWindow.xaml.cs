@@ -1,17 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
 
 namespace TailorShop
 {
     public partial class MainWindow : Window
     {
-        private ObservableCollection<Customer> _customers = new ObservableCollection<Customer>();
+        private readonly DatabaseHelper _dbHelper;
+        private ObservableCollection<Customer> _customers;
 
         public MainWindow()
         {
             InitializeComponent();
+            _dbHelper = new DatabaseHelper();
+            LoadCustomers();
+        }
+
+        private void LoadCustomers()
+        {
+            _customers = new ObservableCollection<Customer>(_dbHelper.GetAllCustomers());
             dgCustomers.ItemsSource = _customers;
         }
 
@@ -36,7 +43,6 @@ namespace TailorShop
 
             var customer = new Customer
             {
-                ID = _customers.Count + 1,
                 Name = txtName.Text,
                 Length = length,
                 Sleeve = sleeve,
@@ -49,6 +55,7 @@ namespace TailorShop
                 Notes = txtNotes.Text
             };
 
+            _dbHelper.InsertCustomer(customer);
             _customers.Add(customer);
             ClearInputs();
         }
@@ -60,6 +67,7 @@ namespace TailorShop
                 var customer = _customers.FirstOrDefault(c => c.ID == id);
                 if (customer != null)
                 {
+                    _dbHelper.DeleteCustomer(id);
                     _customers.Remove(customer);
                 }
             }
@@ -75,6 +83,7 @@ namespace TailorShop
                     var updateWindow = new UpdateCustomerWindow(customer);
                     if (updateWindow.ShowDialog() == true)
                     {
+                        _dbHelper.UpdateCustomer(customer);
                         dgCustomers.Items.Refresh();
                     }
                 }
@@ -86,12 +95,12 @@ namespace TailorShop
             var searchText = txtSearch.Text.ToLower();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                dgCustomers.ItemsSource = _customers;
+                LoadCustomers();
             }
             else
             {
-                dgCustomers.ItemsSource = new ObservableCollection<Customer>(
-                    _customers.Where(c => c.Name.ToLower().Contains(searchText)));
+                _customers = new ObservableCollection<Customer>(_dbHelper.SearchCustomers(searchText));
+                dgCustomers.ItemsSource = _customers;
             }
         }
 
