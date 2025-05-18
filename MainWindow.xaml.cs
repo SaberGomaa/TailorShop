@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -59,7 +60,53 @@ namespace TailorShop
             _customers.Add(customer);
             ClearInputs();
         }
+        private void btnRestore_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var restoreWindow = new RestoreWindow();
+                if (restoreWindow.ShowDialog() == true && !string.IsNullOrEmpty(restoreWindow.SelectedBackupPath))
+                {
+                    string sourcePath = restoreWindow.SelectedBackupPath;
+                    string destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TailorShop.db");
 
+                    // Replace the current database with the selected backup
+                    File.Copy(sourcePath, destinationPath, true);
+
+                    // Reload the data from the restored database
+                    LoadCustomers();
+
+                    MessageBox.Show("تم استعادة قاعدة البيانات بنجاح.", "نجاح");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"فشل استعادة قاعدة البيانات: {ex.Message}", "خطأ");
+            }
+        }
+
+        private void btnBackup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Create Backups folder if it doesn't exist
+                string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "D:\\work\\Saber\\Backups");
+                Directory.CreateDirectory(backupFolder);
+
+                // Generate backup filename with current date and time
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string sourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TailorShop.db");
+                string backupPath = Path.Combine(backupFolder, $"TailorShop_Backup_{timestamp}.db");
+
+                // Copy the database file to the backup location
+                File.Copy(sourcePath, backupPath, true);
+                MessageBox.Show("تم إنشاء نسخة احتياطية بنجاح.", "نجاح");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"فشل إنشاء النسخة الاحتياطية: {ex.Message}", "خطأ");
+            }
+        }
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is int id)
