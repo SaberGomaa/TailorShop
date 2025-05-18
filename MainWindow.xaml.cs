@@ -90,7 +90,7 @@ namespace TailorShop
             try
             {
                 // Create Backups folder if it doesn't exist
-                string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "D:\\work\\Saber\\Backups");
+                string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "D:\\Backups");
                 Directory.CreateDirectory(backupFolder);
 
                 // Generate backup filename with current date and time
