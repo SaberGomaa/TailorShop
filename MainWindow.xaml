@@ -1,7 +1,10 @@
 ﻿<Window x:Class="TailorShop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="إدارة عملاء محل الخياطة " Height="800" Width="1200" FlowDirection="RightToLeft" Background="#E0F7FA" Icon="/assets/logo.ico">
+        Title="إدارة عملاء محل الخياطة " FlowDirection="RightToLeft" 
+        WindowState="Maximized"
+        Background="#E0F7FA" Icon="/assets/logo.ico"
+        ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" >
     <Window.Resources>
         <!-- Improved Button Style -->
         <Style TargetType="Button">
@@ -40,12 +43,12 @@
 
     <DockPanel LastChildFill="True">
         <!-- Search Section on Top -->
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" HorizontalAlignment="Stretch">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
             <TextBox x:Name="txtSearch" Width="300" Tag="بحث بالاسم" Margin="0,0,10,0"/>
             <Button x:Name="btnSearch" Content="بحث بإسم العميل" Click="btnSearch_Click" Width="120" Margin="0,0,10,0"/>
 
             <!-- Spacer to push next buttons to the right -->
-            <StackPanel Width="Auto" HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel Width="Auto" Orientation="Horizontal">
                 <Button x:Name="btnBackup" Content="نسخ احتياطي" Width="100" Margin="10,0,0,0" Click="btnBackup_Click"/>
                 <Button x:Name="btnRestore" Content="استعادة" Width="100" Margin="10,0,0,0" Click="btnRestore_Click"/>
             </StackPanel>
@@ -119,7 +122,7 @@
 
                 <!-- Copyright -->
                 <TextBlock Grid.Row="11" Grid.ColumnSpan="2" Text="تطوير : م / صابر السيد - 01095575989"
-                       FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center" Margin="5,10,5,0"/>
+                       FontWeight="ExtraBold" FontSize="18" Foreground="red" HorizontalAlignment="Center" Margin="5,80,5,0"/>
             </Grid>
 
             <!-- DataGrid Section -->
